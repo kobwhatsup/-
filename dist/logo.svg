@@ -1,0 +1,13 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Balance Scale Base -->
+  <rect x="10" y="35" width="40" height="5" rx="2" fill="#4F46E5"/>
+  <!-- Scale Stand -->
+  <rect x="28" y="15" width="4" height="20" fill="#4F46E5"/>
+  <!-- Scale Beam -->
+  <rect x="15" y="15" width="30" height="4" rx="2" fill="#4F46E5"/>
+  <!-- Scale Plates -->
+  <circle cx="15" cy="25" r="5" stroke="#4F46E5" stroke-width="2"/>
+  <circle cx="45" cy="25" r="5" stroke="#4F46E5" stroke-width="2"/>
+  <!-- Text -->
+  <text x="65" y="32" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1F2937">金牌调解员</text>
+</svg>

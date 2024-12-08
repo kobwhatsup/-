@@ -1,0 +1,119 @@
+---
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+
+interface Props {
+  slides: any[];
+}
+
+const { slides } = Astro.props;
+---
+
+<div class="relative">
+  <div class="overflow-hidden">
+    <div class="relative flex transition-transform duration-500" id="slider">
+      <slot />
+    </div>
+  </div>
+  
+  <!-- 导航按钮 -->
+  <button
+    type="button"
+    class="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+    id="prev-button"
+  >
+    <span class="sr-only">上一张</span>
+    <ChevronLeftIcon className="h-6 w-6" />
+  </button>
+  
+  <button
+    type="button"
+    class="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2 text-gray-800 shadow-md hover:bg-white focus:outline-none"
+    id="next-button"
+  >
+    <span class="sr-only">下一张</span>
+    <ChevronRightIcon className="h-6 w-6" />
+  </button>
+
+  <!-- 指示器 -->
+  <div class="absolute bottom-4 left-1/2 flex -translate-x-1/2 space-x-2">
+    {slides.map((_, index) => (
+      <button
+        type="button"
+        class="h-2 w-2 rounded-full bg-white/50 hover:bg-white"
+        data-index={index}
+      >
+        <span class="sr-only">幻灯片 {index + 1}</span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slider = document.querySelector('#slider') as HTMLElement;
+  const slides = slider.children;
+  const prevButton = document.querySelector('#prev-button');
+  const nextButton = document.querySelector('#next-button');
+  const indicators = document.querySelectorAll('[data-index]');
+  const slideCount = slides.length;
+  let autoplayInterval: number;
+
+  function updateSlidePosition() {
+    const offset = currentSlide * -100;
+    slider.style.transform = `translateX(${offset}%)`;
+    
+    // 更新指示器状态
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('bg-white', index === currentSlide);
+      indicator.classList.toggle('bg-white/50', index !== currentSlide);
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slideCount;
+    updateSlidePosition();
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+    updateSlidePosition();
+  }
+
+  function startAutoplay() {
+    autoplayInterval = setInterval(nextSlide, 5000);
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayInterval);
+  }
+
+  // 事件监听
+  prevButton?.addEventListener('click', () => {
+    prevSlide();
+    stopAutoplay();
+    startAutoplay();
+  });
+
+  nextButton?.addEventListener('click', () => {
+    nextSlide();
+    stopAutoplay();
+    startAutoplay();
+  });
+
+  indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+      currentSlide = index;
+      updateSlidePosition();
+      stopAutoplay();
+      startAutoplay();
+    });
+  });
+
+  // 鼠标悬停时暂停自动播放
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
+
+  // 初始化
+  updateSlidePosition();
+  startAutoplay();
+</script>

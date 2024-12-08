@@ -1,0 +1,20 @@
+---
+import { clsx } from 'clsx';
+
+interface Props {
+  class?: string;
+  [key: string]: any;
+}
+
+const { class: className, ...props } = Astro.props;
+---
+
+<div
+  class={clsx(
+    'bg-white rounded-lg shadow-sm border border-gray-200',
+    className
+  )}
+  {...props}
+>
+  <slot />
+</div>

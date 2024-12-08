@@ -1,0 +1,49 @@
+---
+const news = [
+  {
+    title: '关于开展2024年度调解员资格认证的通知',
+    date: '2023-12-08',
+    category: '通知公告'
+  },
+  {
+    title: '新修订的《人民调解法》解读与实务指南',
+    date: '2023-12-07',
+    category: '法律解读'
+  },
+  {
+    title: '调解员专业能力提升培训班成功举办',
+    date: '2023-12-06',
+    category: '行业动态'
+  }
+];
+---
+<div class="bg-gray-50 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:text-center mb-8">
+      <h2 class="text-3xl font-extrabold text-gray-900">最新资讯</h2>
+      <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+        及时了解行业动态，掌握最新政策信息
+      </p>
+    </div>
+    <div class="space-y-4">
+      {news.map(item => (
+        <div class="bg-white shadow rounded-lg p-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 hover:text-indigo-600">
+                <a href="#">{item.title}</a>
+              </h3>
+              <p class="mt-1 text-sm text-gray-500">{item.category}</p>
+            </div>
+            <span class="text-sm text-gray-500">{item.date}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="mt-8 text-center">
+      <a href="/news" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+        查看更多
+      </a>
+    </div>
+  </div>
+</div>

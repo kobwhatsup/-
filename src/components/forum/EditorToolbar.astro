@@ -1,0 +1,32 @@
+---
+import { editorCommands } from '../../lib/config/editor';
+
+const groups = [
+  ['bold', 'italic', 'underline'],
+  ['bulletList', 'orderedList'],
+  ['link', 'image']
+];
+---
+
+<div class="editor-toolbar flex items-center flex-wrap gap-2 p-2 border-b border-gray-300 bg-gray-50">
+  {groups.map((group, index) => (
+    <div class:list={[
+      "toolbar-group flex items-center space-x-1",
+      index < groups.length - 1 && "border-r border-gray-300 pr-2"
+    ]}>
+      {group.map(name => {
+        const command = editorCommands.find(cmd => cmd.name === name);
+        return command && (
+          <button
+            type="button"
+            data-command={command.name}
+            title={command.title}
+            class="p-1.5 rounded hover:bg-gray-200 text-gray-700 min-w-[28px] text-center"
+          >
+            {command.icon}
+          </button>
+        );
+      })}
+    </div>
+  ))}
+</div>

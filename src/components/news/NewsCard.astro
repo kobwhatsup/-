@@ -1,0 +1,29 @@
+---
+import { formatDate } from '../../lib/utils/date';
+import Card from '../ui/Card.astro';
+import type { Article } from '@prisma/client';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+---
+
+<Card>
+  <div class="p-6">
+    <h3 class="text-lg font-semibold text-gray-900">
+      <a href={`/news/${article.id}`} class="hover:text-indigo-600">
+        {article.title}
+      </a>
+    </h3>
+    <p class="mt-2 text-gray-600 line-clamp-3">
+      {article.content}
+    </p>
+    <div class="mt-4 flex items-center text-sm text-gray-500">
+      <span>发布时间：{formatDate(article.createdAt)}</span>
+      <span class="mx-2">·</span>
+      <span class="text-indigo-600">{article.category}</span>
+    </div>
+  </div>
+</Card>

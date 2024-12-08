@@ -1,0 +1,29 @@
+---
+import { formatDate } from '../../lib/utils/date';
+import Card from '../ui/Card.astro';
+import type { Law } from '@prisma/client';
+
+interface Props {
+  law: Law;
+}
+
+const { law } = Astro.props;
+---
+
+<Card>
+  <div class="p-6">
+    <h3 class="text-lg font-semibold text-gray-900">
+      <a href={`/laws/${law.id}`} class="hover:text-indigo-600">
+        {law.title}
+      </a>
+    </h3>
+    <p class="mt-2 text-gray-600 line-clamp-2">
+      {law.content}
+    </p>
+    <div class="mt-4 flex items-center text-sm text-gray-500">
+      <span>生效日期：{formatDate(law.effectiveAt)}</span>
+      <span class="mx-2">·</span>
+      <span>发布日期：{formatDate(law.createdAt)}</span>
+    </div>
+  </div>
+</Card>

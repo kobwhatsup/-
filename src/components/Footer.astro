@@ -1,0 +1,71 @@
+---
+const currentYear = new Date().getFullYear();
+
+const links = {
+  about: [
+    { text: '平台介绍', href: '/about' },
+    { text: '联系我们', href: '/contact' }
+  ],
+  services: [
+    { text: '调解服务', href: '/services' },
+    { text: '培训课程', href: '/training' }
+  ],
+  resources: [
+    { text: '法律法规', href: '/laws' },
+    { text: '案例分析', href: '/knowledge' }
+  ]
+};
+---
+
+<footer class="bg-gray-800">
+  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">关于我们</h3>
+        <ul class="space-y-2">
+          {links.about.map(link => (
+            <li>
+              <a href={link.href} class="text-gray-300 hover:text-white">
+                {link.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">服务内容</h3>
+        <ul class="space-y-2">
+          {links.services.map(link => (
+            <li>
+              <a href={link.href} class="text-gray-300 hover:text-white">
+                {link.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">资源中心</h3>
+        <ul class="space-y-2">
+          {links.resources.map(link => (
+            <li>
+              <a href={link.href} class="text-gray-300 hover:text-white">
+                {link.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white text-lg font-semibold mb-4">联系方式</h3>
+        <ul class="space-y-2">
+          <li class="text-gray-300">电话：400-XXX-XXXX</li>
+          <li class="text-gray-300">邮箱：contact@mediator.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-8 border-t border-gray-700 pt-8">
+      <p class="text-gray-400 text-center">© {currentYear} 金牌调解员. 保留所有权利.</p>
+    </div>
+  </div>
+</footer>

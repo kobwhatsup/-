@@ -1,0 +1,106 @@
+---
+import EditorToolbar from './EditorToolbar.astro';
+---
+
+<div class="editor-wrapper border border-gray-300 rounded-md overflow-hidden" data-editor>
+  <EditorToolbar />
+  <div class="editor-content p-4 min-h-[300px] focus:outline-none prose prose-indigo max-w-none" contenteditable="true"></div>
+  <input type="hidden" name="content" id="editor-content" />
+  <input type="hidden" name="html_content" id="editor-html-content" />
+  <input type="file" id="image-upload" accept="image/*" class="hidden" />
+</div>
+
+<script>
+  import { Editor } from '@tiptap/core';
+  import StarterKit from '@tiptap/starter-kit';
+  import Image from '@tiptap/extension-image';
+  import Link from '@tiptap/extension-link';
+  import TextAlign from '@tiptap/extension-text-align';
+  import { editorCommands } from '../../lib/config/editor';
+
+  // 确保代码只在客户端运行
+  if (typeof window !== 'undefined') {
+    const editorWrapper = document.querySelector('[data-editor]');
+    if (editorWrapper) {
+      const editorContent = editorWrapper.querySelector('.editor-content');
+      const editor = new Editor({
+        element: editorContent,
+        extensions: [
+          StarterKit,
+          Image,
+          Link,
+          TextAlign.configure({
+            types: ['heading', 'paragraph']
+          })
+        ],
+        content: '',
+        onUpdate: ({ editor }) => {
+          const content = document.getElementById('editor-content');
+          const htmlContent = document.getElementById('editor-html-content');
+          if (content && htmlContent) {
+            content.value = editor.getText();
+            htmlContent.value = editor.getHTML();
+          }
+        }
+      });
+
+      // 工具栏按钮事件
+      editorWrapper.querySelectorAll('.editor-toolbar button').forEach(button => {
+        button.addEventListener('click', () => {
+          const commandName = button.dataset.command;
+          const command = editorCommands.find(cmd => cmd.name === commandName);
+          if (command) {
+            command.action(editor);
+          }
+        });
+      });
+
+      // 图片上传处理
+      const imageUpload = document.getElementById('image-upload');
+      imageUpload?.addEventListener('change', async (event) => {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+          });
+          
+          if (response.ok) {
+            const { url } = await response.json();
+            editor.chain().focus().setImage({ src: url }).run();
+          }
+        } catch (error) {
+          console.error('图片上传失败:', error);
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .editor-content :global(p) {
+    margin: 0.5em 0;
+  }
+  
+  .editor-content :global(ul),
+  .editor-content :global(ol) {
+    padding-left: 1.5em;
+    margin: 0.5em 0;
+  }
+  
+  .editor-content :global(a) {
+    color: #4f46e5;
+    text-decoration: underline;
+  }
+  
+  .editor-content :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+</style>

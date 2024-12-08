@@ -1,0 +1,36 @@
+---
+import ServiceCard from '../ui/ServiceCard.astro';
+
+const services = [
+  {
+    title: '法律法规',
+    description: '及时更新最新法律法规和政策解读，助力调解工作规范开展。',
+    icon: 'law'
+  },
+  {
+    title: '行业动态',
+    description: '实时跟踪行业最新动态，分享调解行业发展趋势和热点话题。',
+    icon: 'news'
+  },
+  {
+    title: '知识分享',
+    description: '汇集调解实践经验，分享典型案例和调解技巧。',
+    icon: 'share'
+  }
+];
+---
+<div class="py-12 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900">特色服务</h2>
+      <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+        为调解员提供全方位的专业支持和服务
+      </p>
+    </div>
+    <div class="mt-10">
+      <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map(service => <ServiceCard {...service} />)}
+      </div>
+    </div>
+  </div>
+</div>

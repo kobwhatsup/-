@@ -1,0 +1,47 @@
+---
+import { formatDate } from '../../lib/utils/date';
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import type { Course } from '../../lib/types';
+
+interface Props {
+  course: Course;
+}
+
+const { course } = Astro.props;
+---
+
+<Card>
+  <div class="p-6">
+    <h3 class="text-lg font-semibold text-gray-900">
+      <a href={`/training/${course.id}`} class="hover:text-indigo-600">
+        {course.title}
+      </a>
+    </h3>
+    <p class="mt-2 text-gray-600 line-clamp-2">
+      {course.description}
+    </p>
+    <div class="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-500">
+      <div>
+        <span class="font-medium">课程时长：</span>
+        {course.duration}
+      </div>
+      <div>
+        <span class="font-medium">开课时间：</span>
+        {formatDate(course.startDate)}
+      </div>
+      <div>
+        <span class="font-medium">课程类别：</span>
+        {course.category}
+      </div>
+      <div>
+        <span class="font-medium">课程价格：</span>
+        {course.price}
+      </div>
+    </div>
+    <div class="mt-6">
+      <Button variant="primary" class="w-full">立即报名</Button>
+    </div>
+  </div>
+</Card>
+---
